@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      height: 90vh;
+    }
+
+    #main-container {
+      border: 2px solid green;
+      border-radius: 33px;
+      width: 90%;
+      height: 600px;
+      background-color: #f5f4f4;
+    }
+
+    #col-2 {
+      height: 250px;
+      overflow: auto;
+    }
+  </style>
+  <title>Typing Instructor</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="index.html">Home</a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+          <small style="color: rgb(220 165 0);border-bottom: 1px solid black;" id="timeSpend">Test Duration | </small>
+        </div>
+        <div class="modal-body">
+          <div style="border: 1px solid green;border-radius: 23px;padding: 12px;" class="container">
+            <div id="grossSpeed">Gross Speed : </div>
+            <hr>
+            <div id="accurecy">Accurecy : </div>
+            <hr>
+            <div id="netSpeed">Net Speed : </div>
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="test.html" type="button" class="btn btn-primary">Test Again</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model end -->
+    <h4 class="text-center my-2">Typing Instructor</h4>
+    <div id="main-container" style="scroll-behavior: smooth;" class="container p-3 my-4 ">
+      <span id="timer" style="color: rgb(223, 98, 98);">Timer : </span>
+      <div class="h-50 overflow-auto p-3 d-flex">
+        <span id="checking" hidden></span>
+        <p id="para">Scolding is something common in student life. Being a naughty boy, I am
+          always scolded by my parents. But one day I was severely scolded by my English teacher.
+          She infect teaches well. But that day, I could not resist the temptation that an adventure
+          of Nancy Drew offered. While she was teaching, I was completely engrossed in reading that book.
+          Nancy Drew was caught in the trap laid by some smugglers and it was then when I felt a light
+          tap on my bent head. The teacher had caught me red handed. She scolded me then and there and
+          insulted me in front of the whole class. I was embarrassed. My cheeks burned being guilty conscious.
+          When the class was over, I went to the teacher to apologize. When she saw that I had realized my
+          mistake, she cooled down and then told me in a very kind manner how disheartening it was when she
+          found any student not paying attention. I was genuinely sorry and promised to myself never to commit
+          such a mistake again.</p>
+      </div>
+      <hr>
+      <div id="col-2" style="height: 210px;">
+        <textarea class="w-100" rows="8" onclick="timeStart()" oninput="checkLive()" id="textarea"></textarea>
+      </div>
+      <button type="button" onclick="result()" id="result" style="display: none;"
+        class="btn btn-outline-success my-5 float-end" data-bs-toggle="modal" data-bs-target="#myModal">
+        Result
+      </button>
+    </div>
+    <div style="height: 50vh;"></div>
+  <footer class="bg-dark d-flex justify-content-center align-items-center" style="height:50px;color:white;">
+    <div  id="footer" >
+      Typing Instructor Credit | Meer Mustan
+    </div>
+  </footer>
+</body>
+<script>
+  testTime = 5;
+  mistakesCount = 0;
+  wordCount = 0;
+  Minutes = 0;
+  start = 0;
+  spendTime = 0;
+  checkTime = 0;
+
+  function timeStart() {
+    document.getElementById('result').style.display = 'block';
+    if (start == 0) {
+      start = 1;
+      Timer = document.getElementById('timer');
+      date = new Date;
+      date.setSeconds(59);
+      date.setMinutes(testTime - 1);
+      Minutes = date.getMinutes();
+      Seconds = date.getSeconds();
+
+      checksTime = setInterval(
+        () => {
+          Timer.innerText = `Remaning Time | ${Minutes} : ${Seconds}`
+          spendTime = spendTime + 1;
+          if (Minutes == 0 && Seconds == 0) {
+            clearInterval(checksTime);
+            result();
+            model();
+            function model() {
+              $("#myModal").modal('show');
+            }
+          }
+          else if (Seconds == 0) {
+            Minutes = Minutes - 1;
+            Seconds = Seconds + 59;
+          }
+          else {
+            Seconds = Seconds - 1;
+          }
+        }
+        , 1000);
+    }
+  }
+
+  function checkLive() {
+    Textarea = document.getElementById('textarea');
+    Para = document.getElementById('para');
+    checking = document.getElementById('checking');
+    ParaText = Para.innerText;
+    TextareaVal = Textarea.value;
+
+    checking.innerText = TextareaVal
+
+    lenTextarea = Textarea.value.length
+    Textareaspace1 = Textarea.value.charAt(lenTextarea - 1);
+    if (Textareaspace1 == " ") {
+      checkText = textareaCheck();
+      newTextarea = checking.innerText.replace(checkText, "");
+      Textarea.value = "";
+      checking.innerText = newTextarea;
+      slicemain = mainParaCheck();
+      newText = ParaText.replace(slicemain, "");
+      Para.innerText = newText;
+      mistakesCheck();
+
+    }
+  }
+
+  function textareaCheck() {
+    for (i = 0; i < Textarea.value.length;) {
+      n = 0;
+      char = checking.innerText.charAt(i);
+      if (char == " ") {
+        n = i;
+        slicing = checking.innerText.slice(0, n);
+        return slicing;
+        break;
+      }
+      i++;
+    }
+  }
+
+  function mainParaCheck() {
+    for (i = 0; i < ParaText.length;) {
+      n = 0;
+      char = ParaText.charAt(i);
+      if (char == " ") {
+        n = i;
+        slicing = ParaText.slice(0, n);
+        return slicing;
+        break;
+      }
+      i++;
+    }
+  }
+
+
+  function mistakesCheck() {
+    if (checkText != slicemain) {
+      mistakesCount += 1;
+    }
+    else {
+      wordCount += 1;
+    }
+
+  }
+
+  function result() {
+    clearInterval(checksTime);
+    spendedTime = document.getElementById('timeSpend');
+    if (spendTime < 60) {
+      spendedTime.style.color = 'rgb(220 165 0)';
+      spendedTime.innerText = `Test Duration | ${spendTime} sec`
+    }
+    else if (spendTime % 60 != (spendTime / 60 != testTime)) {
+      spendedTime.style.color = 'rgb(220 165 0)';
+      remainder = spendTime % 60;
+      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)} : ${remainder}`
+    }
+    else {
+      spendedTime.style.color = 'green';
+      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)} min`
+    }
+
+    netspeed = document.getElementById('netSpeed');
+    accurecy = document.getElementById('accurecy');
+    grossspeed = document.getElementById('grossSpeed');
+
+
+    checkGrossSpeed = ((mistakesCount + wordCount) / spendTime) * 60;
+    checkGrossSpeed = Math.floor(checkGrossSpeed);
+    grossspeed.innerText = `Gross Speed: ${checkGrossSpeed}wpm`;
+
+
+
+    checkAccurecy = (100 / (mistakesCount + wordCount) * mistakesCount) - 100;
+    checkAccurecy = Math.floor(checkAccurecy);
+    checkAccurecy = Math.abs(checkAccurecy);
+    accurecy.innerText = `Accurecy : ${checkAccurecy}%`;
+
+
+    checkNetSpeed = (wordCount / spendTime) * 60;
+    checkNetSpeed = Math.floor(checkNetSpeed);
+    netspeed.innerText = `Net Speed : ${checkNetSpeed}wpm`
+  }
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+  integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+</html>
