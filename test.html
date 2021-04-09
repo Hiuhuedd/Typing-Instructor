@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -39,7 +39,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">Typing Instructor</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -76,6 +76,7 @@
           </div>
         </div>
         <div class="modal-footer">
+          <a href="index.html" type="button" class="btn btn-primary">Home</a>
           <a href="test.html" type="button" class="btn btn-primary">Test Again</a>
         </div>
       </div>
@@ -146,13 +147,20 @@
   </footer>
 </body>
 <script>
-testTime = 5;
+  if (localStorage.getItem('testDuration')!== null){
+    time = localStorage.getItem('testDuration');
+    testTime = Number(time);
+  }
+  else{
+    testTime = 5;
+  }
   mistakesCount = 0;
   wordCount = 0;
   Minutes = 0;
   start = 0;
   spendTime = 0;
   checkTime = 0;
+
 
   function timeStart() {
     document.getElementById('result').style.display = 'block';
@@ -263,16 +271,19 @@ testTime = 5;
     spendedTime = document.getElementById('timeSpend');
     if (spendTime < 60) {
       spendedTime.style.color = 'rgb(220 165 0)';
-      spendedTime.innerText = `Test Duration | ${spendTime} sec`
+      spendedTime.innerText = `Test Duration | ${spendTime}sec`
+      timeDuration = `${spendTime}sec`;
     }
     else if (spendTime % 60 != (spendTime / 60 != testTime)) {
       spendedTime.style.color = 'rgb(220 165 0)';
       remainder = spendTime % 60;
-      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)} : ${remainder}`
+      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)}min : ${remainder}sec`;
+      timeDuration = `${Math.floor(spendTime / 60)}min :${remainder}sec`
     }
     else {
       spendedTime.style.color = 'green';
-      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)} min`
+      spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)}min`;
+      timeDuration = `${Math.floor(spendTime / 60)}min`
     }
 
     netspeed = document.getElementById('netSpeed');
@@ -295,6 +306,27 @@ testTime = 5;
     checkNetSpeed = (wordCount / spendTime) * 60;
     checkNetSpeed = Math.floor(checkNetSpeed);
     netspeed.innerText = `Net Speed : ${checkNetSpeed}wpm`
+
+    updateRecord();
+  }
+  function updateRecord(){
+    if (localStorage.getItem('typingRecord')==null){
+      array = '[]'
+      localStorage.setItem('typingRecord',array);
+      tyRecordStr = localStorage.getItem('typingRecord');
+      tyRecordArray = JSON.parse(tyRecordStr);
+      newRecord = [timeDuration,checkGrossSpeed,checkAccurecy,checkNetSpeed]
+      tyRecordArray.push(newRecord);
+      localStorage.setItem('typingRecord',JSON.stringify(tyRecordArray))
+    }
+    else{
+      tyRecordStr = localStorage.getItem('typingRecord');
+      tyRecordArray = JSON.parse(tyRecordStr);
+      newRecord = [timeDuration,checkGrossSpeed,checkAccurecy,checkNetSpeed]
+      tyRecordArray.push(newRecord);
+      localStorage.setItem('typingRecord',JSON.stringify(tyRecordArray));
+    }
+
   }
 
 </script>
