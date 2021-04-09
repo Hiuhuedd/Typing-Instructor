@@ -113,7 +113,7 @@ function deleteAll() {
   localStorage.setItem('typingRecord',JSON.stringify(tyRecordArray));
   updateRecords();
 }
-function updateRecords(params) {
+function updateRecords() {
   if (localStorage.getItem('typingRecord')==null){
     array = '[]'
     localStorage.setItem('typingRecord',array);
@@ -122,6 +122,11 @@ function updateRecords(params) {
     tablebody = document.getElementById('tableBody');
     tyRecordStr = localStorage.getItem('typingRecord');
     tyRecordArray = JSON.parse(tyRecordStr);
+    if(tyRecordArray.length > 10){
+      extraList = tyRecordArray.length - 10;
+      tyRecordArray.splice(0,extraList)
+
+    }
     if(tyRecordArray.length == 0){
       document.getElementById('deleteAll').style.display = 'none';
     }
