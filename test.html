@@ -285,28 +285,28 @@
       spendedTime.innerText = `Test Duration | ${Math.floor(spendTime / 60)}min`;
       timeDuration = `${Math.floor(spendTime / 60)}min`
     }
-
+    
     netspeed = document.getElementById('netSpeed');
     accurecy = document.getElementById('accurecy');
     grossspeed = document.getElementById('grossSpeed');
-
-
+    
+    
     checkGrossSpeed = ((mistakesCount + wordCount) / spendTime) * 60;
     checkGrossSpeed = Math.floor(checkGrossSpeed);
     grossspeed.innerText = `Gross Speed: ${checkGrossSpeed}wpm`;
 
-
-
+    
+    
     checkAccurecy = (100 / (mistakesCount + wordCount) * mistakesCount) - 100;
     checkAccurecy = Math.floor(checkAccurecy);
     checkAccurecy = Math.abs(checkAccurecy);
     accurecy.innerText = `Accurecy : ${checkAccurecy}%`;
-
-
+    
+    
     checkNetSpeed = (wordCount / spendTime) * 60;
     checkNetSpeed = Math.floor(checkNetSpeed);
     netspeed.innerText = `Net Speed : ${checkNetSpeed}wpm`
-
+    
     updateRecord();
   }
   function updateRecord(){
@@ -317,7 +317,7 @@
       tyRecordArray = JSON.parse(tyRecordStr);
       newRecord = [timeDuration,checkGrossSpeed,checkAccurecy,checkNetSpeed]
       tyRecordArray.push(newRecord);
-      localStorage.setItem('typingRecord',JSON.stringify(tyRecordArray))
+      localStorage.setItem('typingRecord',JSON.stringify(tyRecordArray));
     }
     else{
       tyRecordStr = localStorage.getItem('typingRecord');
